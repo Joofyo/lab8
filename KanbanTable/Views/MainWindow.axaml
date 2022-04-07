@@ -1,0 +1,142 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:KanbanTable.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:ext="clr-namespace:KanbanTable.Converters;assembly=KanbanTable.Converters"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
+		MaxWidth="700" MaxHeight="450"
+		MinWidth="700" MinHeight="450"
+        x:Class="KanbanTable.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="KanbanTable">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+
+
+	<Grid ShowGridLines="True">
+		
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="60"></RowDefinition>
+			<RowDefinition Height="330"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
+		</Grid.RowDefinitions>
+		
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		
+			<Menu Grid.ColumnSpan="3" Background="Bisque">
+				<MenuItem Header="_File">
+					<MenuItem Header="_New" Command="{Binding ClearData}"/>
+					<MenuItem Header="_Save" Command="{Binding SaveFileDialogue}" CommandParameter="{Binding $parent[Window]}"/>
+					<MenuItem Header="_Load" Command="{Binding LoadFileDialogue}" CommandParameter="{Binding $parent[Window]}"/>
+					<Separator/>
+					<MenuItem Header="_Exit" Command="{Binding CloseWindow}" CommandParameter="{Binding $parent[Window]}"/>
+				</MenuItem>
+				<MenuItem Header="_About" Click="ShowAboutWindow"></MenuItem>
+			</Menu>
+		
+		<Grid Grid.Column="0" Grid.Row="1" Background="AliceBlue">
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+			Запланировано
+		</TextBlock>
+		</Grid>
+
+		<Grid Grid.Column="1" Grid.Row="1" Background="AliceBlue">
+			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+				В работе
+			</TextBlock>
+		</Grid>
+
+		<Grid Grid.Column="2" Grid.Row="1" Background="AliceBlue">
+			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+				Завершено
+			</TextBlock>
+		</Grid>
+
+		<ScrollViewer Grid.Row="2" Grid.Column="0" VerticalScrollBarVisibility="Auto">
+			<StackPanel>
+			<ItemsControl Items="{Binding Path=Tasks[0]}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Expander Header="{Binding Header}">
+							<StackPanel>
+								<TextBlock>Header: </TextBlock>
+								<TextBox Text="{Binding Header}" Width="200"></TextBox>
+								<TextBlock>Task: </TextBlock>
+								<TextBox Text="{Binding Description}" Width="200" Height="200" AcceptsReturn="True"></TextBox>
+								<Viewbox Stretch="Uniform" Width="100" Height="100">
+									<Image Source="{Binding FilePath}"></Image>
+								</Viewbox>
+								<Button HorizontalAlignment="Stretch" Command="{Binding UploadFile}" CommandParameter="{Binding $parent[Window]}">Add Image</Button>
+								<Button HorizontalAlignment="Stretch" Command="{Binding $parent[Window].DataContext.RemoveTask}" CommandParameter="{Binding}">Delete</Button>
+							</StackPanel>
+						</Expander>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StackPanel>
+		</ScrollViewer>
+
+		<ScrollViewer Grid.Row="2" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+			<StackPanel>
+				<ItemsControl Items="{Binding Path=Tasks[1]}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Expander Header="{Binding Header}">
+								<StackPanel>
+									<TextBlock>Header: </TextBlock>
+									<TextBox Text="{Binding Header}" Width="200"></TextBox>
+									<TextBlock>Task: </TextBlock>
+									<TextBox Text="{Binding Description}" Width="200" Height="200" AcceptsReturn="True"></TextBox>
+									<Viewbox Stretch="Uniform" Width="100" Height="100">
+										<Image Source="{Binding FilePath}"></Image>
+									</Viewbox>
+									<Button HorizontalAlignment="Stretch" Command="{Binding UploadFile}" CommandParameter="{Binding $parent[Window]}">Add Image</Button>
+									<Button HorizontalAlignment="Stretch" Command="{Binding $parent[Window].DataContext.RemoveTask}" CommandParameter="{Binding}">Delete</Button>
+								</StackPanel>
+							</Expander>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
+		</ScrollViewer>
+
+		<ScrollViewer Grid.Row="2" Grid.Column="2" VerticalScrollBarVisibility="Auto">
+			<StackPanel>
+				<ItemsControl Items="{Binding Path=Tasks[2]}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Expander Header="{Binding Header}">
+								<StackPanel>
+									<TextBlock>Header: </TextBlock>
+									<TextBox Text="{Binding Header}" Width="200"></TextBox>
+									<TextBlock>Task: </TextBlock>
+									<TextBox Text="{Binding Description}" Width="200" Height="200" AcceptsReturn="True"></TextBox>
+									<Viewbox Stretch="Uniform" Width="100" Height="100">
+										<Image Source="{Binding FilePath}"></Image>
+									</Viewbox>
+									<Button HorizontalAlignment="Stretch" Command="{Binding UploadFile}" CommandParameter="{Binding $parent[Window]}">Add Image</Button>
+									<Button HorizontalAlignment="Stretch" Command="{Binding $parent[Window].DataContext.RemoveTask}" CommandParameter="{Binding}">Delete</Button>
+								</StackPanel>
+							</Expander>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
+		</ScrollViewer>
+		
+		<Button Grid.Column="0" Grid.Row="3" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="Bisque" Command="{Binding AddTask}" CommandParameter="0">Add</Button>
+		<Button Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="Bisque" Command="{Binding AddTask}" CommandParameter="1">Add</Button>
+		<Button Grid.Column="2" Grid.Row="3" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="Bisque" Command="{Binding AddTask}" CommandParameter="2">Add</Button>
+	</Grid>
+	
+	
+</Window>
